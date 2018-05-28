@@ -1,31 +1,60 @@
-import json
-import requests
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
 
+# =============================================================================
+#            CoinCap Project
+# =============================================================================
+# PROJECT : Guillaume Bally
+# FILE : main.py
+# DESCRIPTION :
+"""
 
-def get_coin_data():
-	# r = requests.get('https://api.coinmarketcap.com/v2/ticker/1/' + choice)
-	# #for coin in r.json():
-	# #    print(coin["price_usd"])
-	# return r.json()
+========= ============== ======================================================
+Version   Date           Comment
+========= ============== ======================================================
+0.0.1     2018/05/28     Creation of the batch script
+========= ============== ======================================================
+"""
 
-	""" For test we will use a json file locally, the above code works and will
-	download the last updated data """
+# [IMPORTS]--------------------------------------------------------------------
+import os
+import subprocess
+import ConfigParser
+import csv
 
-	json_data=open("test.json").read()
-	data = json.loads(json_data)
-	return data
+# [MODULE INFO]----------------------------------------------------------------
+__author__ = 'Guillaume'
+__date__ = '2018/05/28'
+__copyright__ = ''
+__version__ = '0.0.1'
+__maintainer__ = 'Guillaume'
+__email__ = ''
 
-def output(result):
-	#with open("output.csv", "a+") as att_file:
-	print result
+# [GLOBALS]--------------------------------------------------------------------
+DESCRIPTION = """Get data from coinmarketcap"""
+PATH = 'Config.rc'
+PATTERN = ''
 
+# [Functions]-------------------------------------------------------------------
+def main(conf):
+    config = ConfigParser.RawConfigParser()
+    config.read(conf)
+    list_of_coins = config.get('List', 'coins')
+    list = list_of_coins.split(",")
+    for coin in list:
+        print 'Get %s Data' % (coin)
+        with open('Output/listing.csv', "rb") as f:
+            reader = csv.reader(f)
+            for l in enumerate(reader):
+                if l[1][0] == coin:
+                    try:
+                        ID = l[1][2]
+                        command = ['python', 'get_data_request.py', ID]
+                        cmd = ' '.join(command)
+                        output = subprocess.call(cmd, shell=True)
+                    except:
+                        print "Fail to get ID"
 
-
-def main():
-	result = get_coin_data()
-	if result:
-		output(result)
-
-
+# [MAIN]-----------------------------------------------------------------------
 if __name__ == '__main__':
-	main()
+	main(PATH)

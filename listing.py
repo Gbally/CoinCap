@@ -17,13 +17,13 @@ def get_listing():
 def output(result):
     # Write the list in a csv file - easier to use (at least to me)
     cpt = 0
-    with open("listing.csv", "a+") as att_file:
+    with open("Output/listing.csv", "a+") as att_file:
         total_id = len(result["data"]) - 1
         while cpt <= total_id:
             symbol = result["data"][cpt]["symbol"]
             name = result["data"][cpt]["name"]
             id = result["data"][cpt]["id"]
-            att_file.write(name + "," + symbol + "," + str(id) + "\n")
+            att_file.write(symbol + "," + name + "," + str(id) + "\n")
             cpt += 1
 
 def main():
