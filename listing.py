@@ -1,18 +1,37 @@
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+
+# =============================================================================
+#            CoinCap Project
+# =============================================================================
+# PROJECT : Guillaume Bally
+# FILE : listing.py
+# DESCRIPTION :
+"""
+
+========= ============== ======================================================
+Version   Date           Comment
+========= ============== ======================================================
+0.0.1     2018/05/28     Creation of the batch script
+========= ============== ======================================================
+"""
+
+# [IMPORTS]--------------------------------------------------------------------
 import json
 import requests
 
+# [MODULE INFO]----------------------------------------------------------------
+__author__ = 'Guillaume'
+__date__ = '2018/05/28'
+__version__ = '0.0.1'
+__maintainer__ = 'Guillaume'
 
+# [Functions]-------------------------------------------------------------------
 def get_listing():
     # Get the last updated listing list
 	r = requests.get('https://api.coinmarketcap.com/v2/listings/')
 	return r.json()
 
-	# """ For test we will use a json file locally, the above code works and will
-	# download the last updated data """
-    #
-	# json_data=open("listing_test.json").read()
-	# data = json.loads(json_data)
-	# return data
 
 def output(result):
     # Write the list in a csv file - easier to use (at least to me)
@@ -26,11 +45,12 @@ def output(result):
             att_file.write(symbol + "," + name + "," + str(id) + "\n")
             cpt += 1
 
+
 def main():
 	result = get_listing()
 	if result:
 		output(result)
 
-
+# [MAIN]-----------------------------------------------------------------------
 if __name__ == '__main__':
 	main()

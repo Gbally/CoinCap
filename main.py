@@ -22,14 +22,13 @@ import os
 import subprocess
 import ConfigParser
 import csv
+import sys
 
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
 __date__ = '2018/05/28'
-__copyright__ = ''
 __version__ = '0.0.2'
 __maintainer__ = 'Guillaume'
-__email__ = ''
 
 # [GLOBALS]--------------------------------------------------------------------
 DESCRIPTION = """Get data from coinmarketcap"""
@@ -37,9 +36,15 @@ PATH = 'Config.rc'
 
 # [Functions]-------------------------------------------------------------------
 def main():
+    """
+    function: Menu
+    return: N/A
+    """
     head()
     print "Get data from Config file ---------- 1"
     print "Display data from a specific coin -- 2"
+    print ""
+    print "Exit ------------------------- Any Key"
     print ""
     choice = raw_input("Your choice: ")
     if choice == "1":
@@ -55,8 +60,17 @@ def main():
             output = subprocess.call(cmd, shell=True)
         except:
             print "Fail to get ID"
+        wait = raw_input("Press enter to continue")
+        main()
+    else:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        sys.exit()
 
 def get_data_request():
+    """
+    function: From the config file, launch the get_data_request script.
+    return: N/A
+    """
     head()
     config = ConfigParser.RawConfigParser()
     config.read(PATH)
@@ -94,6 +108,7 @@ def head():
     print "-          CoinCapTool          -"
     print "---------------------------------"
     print ""
+
 # [MAIN]-----------------------------------------------------------------------
 if __name__ == '__main__':
 	main()
