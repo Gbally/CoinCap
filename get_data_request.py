@@ -20,6 +20,7 @@ Version   Date           Comment
 import json
 import requests
 import argparse
+import pandas as pd
 
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
@@ -27,7 +28,6 @@ __date__ = '2018/05/28'
 __copyright__ = ''
 __version__ = '0.0.1'
 __maintainer__ = 'Guillaume'
-__email__ = ''
 
 # [Functions]-------------------------------------------------------------------
 def get_coin_data(ID):
