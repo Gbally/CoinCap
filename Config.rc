@@ -1,2 +1,5 @@
 [List]
-coins = BTC,XRP,ETH
+coins = BTC,XRP,ETH,ZIL
+
+[Monitor]
+coins_monitor = BTC,ETH,ZIL,XML
