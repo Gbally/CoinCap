@@ -2,4 +2,5 @@
 coins = BTC,XRP,ETH,ZIL
 
 [Monitor]
-coins_monitor = BTC,ETH,ZIL,XML
+coins_monitor = BTC,ETH,XRP,BCH
+save = EOS,LTC,ADA,XLM,MIOTA,TRX,NEO,DASH,XMR,XEM,VEN,ETC,BNB,BCN,QTUM,OMG,ICX,ZEC,LSK,ZIL
