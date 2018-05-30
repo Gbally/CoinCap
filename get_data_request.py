@@ -12,7 +12,7 @@
 ========= ============== ======================================================
 Version   Date           Comment
 ========= ============== ======================================================
-0.0.1     2018/05/28     Creation of the script
+0.1.0     2018/05/28     Creation of the script
 ========= ============== ======================================================
 """
 
@@ -34,12 +34,6 @@ def get_coin_data(ID):
 	r = requests.get('https://api.coinmarketcap.com/v2/ticker/' + str(ID))
 	return r.json()
 
-	""" For test we will use a json file locally, the above code works and will
-	download the last updated data """
-
-	# json_data=open("Json/test.json").read()
-	# data = json.loads(json_data)
-	# return data
 
 def output(result):
 	with open("Output/last_update.csv", "a+") as att_file:

@@ -12,8 +12,8 @@
 ========= ============== ======================================================
 Version   Date           Comment
 ========= ============== ======================================================
-0.0.1     2018/05/28     Creation of the batch script
-0.0.2     2018/05/29     Add Menu
+0.1.0     2018/05/28     Creation of the batch script
+0.2.0     2018/05/29     Add Menu
 ========= ============== ======================================================
 """
 
@@ -31,7 +31,6 @@ __version__ = '0.0.2'
 __maintainer__ = 'Guillaume'
 
 # [GLOBALS]--------------------------------------------------------------------
-DESCRIPTION = """Get data from coinmarketcap"""
 PATH = 'Config.rc'
 
 # [Functions]-------------------------------------------------------------------
@@ -48,7 +47,17 @@ def main():
     print ""
     choice = raw_input("Your choice: ")
     if choice == "1":
-        get_data_request()
+        list = get_data_request()
+        for coin in list:
+            print 'Get %s Data' % (coin)
+            ID = request_listing(coin)
+            try:
+                command = ['python', 'get_data_request.py', ID]
+                cmd = ' '.join(command)
+                output = subprocess.call(cmd, shell=True)
+            except:
+                print "Fail to get ID"
+
     elif choice == "2":
         head()
         coin_request = raw_input("With coin would you like to see? (BTC, LTC, CACH...): ")
@@ -76,15 +85,8 @@ def get_data_request():
     config.read(PATH)
     list_of_coins = config.get('List', 'coins')
     list = list_of_coins.split(",")
-    for coin in list:
-        print 'Get %s Data' % (coin)
-        ID = request_listing(coin)
-        try:
-            command = ['python', 'get_data_request.py', ID]
-            cmd = ' '.join(command)
-            output = subprocess.call(cmd, shell=True)
-        except:
-            print "Fail to get ID"
+    return list
+
 
 def request_listing(get_ID):
     """
@@ -104,9 +106,10 @@ def head():
     return: N/A
     """
     os.system('cls' if os.name == 'nt' else 'clear')
-    print "---------------------------------"
-    print "-          CoinCapTool          -"
-    print "---------------------------------"
+    print "-----------------------------------------"
+    print "-              CoinCapTool              -"
+    print "- Data from https://coinmarketcap.com/  -"
+    print "-----------------------------------------"
     print ""
 
 # [MAIN]-----------------------------------------------------------------------
