@@ -34,9 +34,10 @@ __version__ = '0.0.1'
 __maintainer__ = 'Guillaume'
 
 # [GLOBALS]--------------------------------------------------------------------
-CONFIG_FILE = 'Config.rc'
-LISTING_FILE = 'Output/listing.csv'
-CRON_OUTPUT = 'Output/cron_output.csv'
+THIS_FILE = os.path.abspath(os.path.dirname(__file__))
+CONFIG_FILE = THIS_FILE + '/Config.rc'
+LISTING_FILE = THIS_FILE + '/Output/listing.csv'
+CRON_OUTPUT = THIS_FILE + '/Output/cron_output.csv'
 NOW = datetime.datetime.now()
 
 # [Functions]-------------------------------------------------------------------
@@ -108,27 +109,22 @@ def main():
         formated = time.get('formated')
         df = pd.DataFrame({'A Time': [formated]})
 
+        list_index = ['A Time']
         for coin in list:
             ID = request_listing(coin)
             json_data = get_coin_data(ID)
             data_extracted = output(json_data)
+            list_index.append(data_extracted[0])
             save(data_extracted, df)
 
         if os.path.exists(CRON_OUTPUT):
             df_exist = pd.read_csv(CRON_OUTPUT)
-            df.drop('Unnamed: 0', axis=1, inplace=True)
-            print ""
-            print df_exist
-            print df
-            print ""
-            new_df = df_exist.append(df)
-            print new_df
+            df_index = df_exist[list_index]
+            new_df = df_index.append(df)
             new_df.to_csv(CRON_OUTPUT)
 
         else:
             df.to_csv(CRON_OUTPUT)
-            # with open(CRON_OUTPUT, "a+") as att_file:
-
 
 
 # [MAIN]-----------------------------------------------------------------------
