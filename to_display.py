@@ -58,8 +58,8 @@ def output(result):
     print 'Price         %s $' % (price)
     print 'Market Cap    %s $' % (market_cap)
     print 'Volume 24h    %s $' % (vol_24)
-    print 'Change 24h    %s %' % (change_24)
-    print 'Change 7days  %s %' % (change_7)
+    print 'Change 24h    %s /100' % (change_24)
+    print 'Change 7days  %s /100' % (change_7)
     print ""
 
 def main(ID):
