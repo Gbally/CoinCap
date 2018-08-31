@@ -1,0 +1,8 @@
+Cron Task: Every hour (must be adjustable), update date and feed a file of all 
+	   OR predetermind coins
+
+Check current data for a specific coin
+
+Compare data with at least 2 coin (maybe 5 max - TBD)
+
+Data graph: TBD - will use cron task data
