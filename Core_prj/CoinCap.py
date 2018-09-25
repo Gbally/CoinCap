@@ -18,11 +18,14 @@ Version   Date           Comment
 
 # [IMPORTS]--------------------------------------------------------------------
 import os
+import requests
 import subprocess
 import ConfigParser
 import csv
 import sys
 from fn_base import pas_tres_class
+
+the_class = pas_tres_class()
 
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
@@ -34,19 +37,28 @@ __maintainer__ = 'Guillaume'
 PATH = 'Config.rc'
 
 # [Functions]-------------------------------------------------------------------
+
+
 def main():
     """
     function: Menu
     return: N/A
     """
     head()
-    print "Get data from Config file ---------- 1"
-    print "Display data from a specific coin -- 2"
+    print "Updqte listing --------------------- 1"
+    print "Get data from Config file ---------- 2"
+    print "Display data from a specific coin -- 3"
     print ""
     print "Exit ------------------------- Any Key"
     print ""
+    user_choice = raw_input("Choice: ")
+    if user_choice == "1":
+        print "DEBUG: user_choice"
+        test = the_class.get_listing()
+        print test
 
-
+    else:
+        print "DEBUG: Not working"
 
 
 def head():
@@ -62,5 +74,7 @@ def head():
     print ""
 
 # [MAIN]-----------------------------------------------------------------------
+
+
 if __name__ == '__main__':
-	main()
+    main()

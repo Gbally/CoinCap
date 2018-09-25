@@ -5,20 +5,19 @@ class pas_tres_class:
         From the URL, add a listing number of the coin to get all the data in
         a JSON format
         """
-	    r = requests.get('https://api.coinmarketcap.com/v2/ticker/' + str(ID))
-	    return r.json()
+        r = requests.get('https://api.coinmarketcap.com/v2/ticker/' + str(ID))
+        return r.json()
 
 
-    def get_listing(self, write):
+    def get_listing(self):
         """
         The URL gives the listing of every coin referenced in coinmarketcap
         It will be used to get data of every coin
         """
         # Get the last updated listing list
-    	r = requests.get('https://api.coinmarketcap.com/v2/listings/')
-        if write:
-            self.output_listing(r.json())
-    	return r.json()
+        r = requests.get('https://api.coinmarketcap.com/v2/listings/')
+        self.output_listing(r.json())
+        return r.json()
 
 
     def output_listing(self, data):
