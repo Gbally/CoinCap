@@ -13,6 +13,8 @@
 Version   Date           Comment
 ========= ============== ======================================================
 0.1.0     2018/08/29     Creation of the batch script
+0.1.1     2018/09/25     Added: Import class
+0.1.1     2018/09/27     Added: Option "Get data from Config file"
 ========= ============== ======================================================
 """
 
@@ -29,52 +31,58 @@ the_class = pas_tres_class()
 
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
-__date__ = '2018/06/29'
-__version__ = '0.0.1'
+__date__ = '2018/09/25'
+__version__ = '0.1.1'
 __maintainer__ = 'Guillaume'
 
 # [GLOBALS]--------------------------------------------------------------------
 PATH = 'Config.rc'
 
 # [Functions]-------------------------------------------------------------------
-
-
 def main():
-    """
-    function: Menu
-    return: N/A
-    """
-    head()
-    print "Updqte listing --------------------- 1"
-    print "Get data from Config file ---------- 2"
-    print "Display data from a specific coin -- 3"
-    print ""
-    print "Exit ------------------------- Any Key"
-    print ""
-    user_choice = raw_input("Choice: ")
-    if user_choice == "1":
-        print "DEBUG: user_choice"
-        test = the_class.get_listing()
-        print test
+	"""
+	function: Menu
+	return: N/A
+	"""
+	head()
+	print "Updqte listing --------------------- 1"
+	print "Get data from Config file ---------- 2"
+	print "Display data from a specific coin -- 3"
+	print ""
+	print "Exit ------------------- Any other Key"
+	print ""
+	user_choice = raw_input("Choice: ")
+	if user_choice == "1":
+		the_class.get_listing()
+		main()
 
-    else:
-        print "DEBUG: Not working"
+	elif user_choice == "2":
+		list = the_class.get_data_config_file()
+		for coin in list:
+			print "Get %s data" % coin
+			ID = the_class.get_ID_from_listing(coin)
+			result = the_class.get_coin_data(ID)
+			the_class.output(result)
+
+	else:
+		os.system('cls' if os.name == 'nt' else 'clear')
+		sys.exit(0)
 
 
 def head():
-    """
-    function: For better looking...in my opinon
-    return: N/A
-    """
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print "-----------------------------------------"
-    print "-              CoinCapTool              -"
-    print "- Data from https://coinmarketcap.com/  -"
-    print "-----------------------------------------"
-    print ""
+	"""
+	function: For better looking...in my opinon
+	return: N/A
+	"""
+	os.system('cls' if os.name == 'nt' else 'clear')
+	print "-----------------------------------------"
+	print "-              CoinCapTool              -"
+	print "- Data from https://coinmarketcap.com/  -"
+	print "-----------------------------------------"
+	print ""
 
 # [MAIN]-----------------------------------------------------------------------
 
 
 if __name__ == '__main__':
-    main()
+	main()
