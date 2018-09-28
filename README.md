@@ -1,8 +1,14 @@
 # CoinCap
 
 ## Presentation
-First project in Python !!!
+First project in Python, I am using this project to learn and improve my 
+skills in python. If you pass by and check my scripts, feel free to leave me
+ comments and recommendations.
 
-In this project I will make many different script to develop my skills before starting to think about the project in a big picture.
-So, sorry it is messy, but every script should be working and have their own purpose, for now ! 
+First edit the config file.
 
+Run python CoinCap.py
+
+---------------------------
+
+Works with python 2 only - python 3 will be added later
