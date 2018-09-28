@@ -5,7 +5,7 @@
 #            CoinCap Project
 # =============================================================================
 # PROJECT : Guillaume Bally
-# FILE : main.py
+# FILE : CoinCap.py
 # DESCRIPTION :
 """
 
@@ -25,9 +25,9 @@ Version   Date           Comment
 import os
 import sys
 
-from fn_base import pas_tres_class
+from fn_base import PasTresClass
 
-the_class = pas_tres_class()
+the_class = PasTresClass()
 
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
@@ -36,13 +36,14 @@ __version__ = '0.1.3'
 __maintainer__ = 'Guillaume'
 
 # [GLOBALS]--------------------------------------------------------------------
+THIS_FILE = os.path.abspath(os.path.dirname(__file__))
+# TODO: To test THIS_FILE
 PATH = 'Config.rc'
 
 # [Functions]-------------------------------------------------------------------
 def main():
 	"""
 	function: Menu
-	return: N/A
 	"""
 	# For decoration
 	head()
@@ -66,25 +67,30 @@ def main():
 	# TODO: Out of date date
 	if user_choice == "1":
 		the_class.get_listing()
-
+		# Return to the main  - menu for an other action
 		main()
 
+	# Will display and save coins data from the config file
 	elif user_choice == "2":
+		# Delete all previous data from the file and add headers
 		open("Output/last_update.csv", "w").write("Coin Name," +
 		                                          "Price," +
 		                                          "Market Cap," +
 		                                          "Volume 24h," +
 		                                          "change 24h," +
 		                                          "change 7 days\n")
+
 		list = the_class.get_data_config_file()
 		for coin in list:
 			print "\nGet %s data" % coin
 			ID = the_class.get_ID_from_listing(coin)
+			# TODO: If return False - listing file had to be created
 			if not ID:
+				# And return to main - return to the flow would be better
 				main()
 			result = the_class.get_coin_data(ID)
 			the_class.output_2(result)
-
+		# Return to the main  - menu for an other action
 		main()
 
 	elif user_choice == "3":
@@ -97,8 +103,6 @@ def main():
 		the_class.output_3(result)
 
 		main()
-
-
 
 	else:
 		os.system('cls' if os.name == 'nt' else 'clear')

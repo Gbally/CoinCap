@@ -27,6 +27,7 @@ import time
 import ConfigParser
 import csv
 import sys
+import os
 
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
@@ -35,10 +36,13 @@ __version__ = '0.1.2'
 __maintainer__ = 'Guillaume'
 
 # [GLOBALS]--------------------------------------------------------------------
-PATH = 'Config.rc'
+THIS_FILE = os.path.abspath(os.path.dirname(__file__))
+# TODO: To test THIS_FILE
+PATH = THIS_FILE + '/Config.rc'
+
 
 # [Functions]-------------------------------------------------------------------
-class pas_tres_class:
+class PasTresClass:
 
 	def get_coin_data(self, ID):
 		"""
@@ -96,7 +100,6 @@ class pas_tres_class:
 		return: ID of the coin requested
 		"""
 		try:
-			print "DEBUG: GOOOOOOOOOOD"
 			with open('Output/listing.csv', "rb") as f:
 				reader = csv.reader(f)
 				for l in enumerate(reader):
