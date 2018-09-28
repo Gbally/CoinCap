@@ -45,7 +45,7 @@ def main():
 	"""
 	head()
 	menu = {}
-	menu['1'] = "Updqte listing"
+	menu['1'] = "Update listing"
 	menu['2'] = "Get data from Config file"
 	menu['3'] = "Display data from a specific coin"
 	menu['4'] = "Exit - Any other key"
@@ -61,6 +61,12 @@ def main():
 		main()
 
 	elif user_choice == "2":
+		open("Output/last_update.csv", "w").write("Coin Name," +
+		                                          "Price," +
+		                                          "Market Cap," +
+		                                          "Volume 24h," +
+		                                          "change 24h," +
+		                                          "change 7 days\n")
 		list = the_class.get_data_config_file()
 		for coin in list:
 			print "\nGet %s data" % coin
