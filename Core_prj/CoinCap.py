@@ -17,6 +17,7 @@ Version   Date           Comment
 0.1.3     2018/09/27     Added: Option "Get data from Config file"
 0.1.4     2018/09/28     Added Display data from specific coin
 						 Menu changed
+						 Fixed: Crash if no listing file found
 ========= ============== ======================================================
 """
 
@@ -43,7 +44,10 @@ def main():
 	function: Menu
 	return: N/A
 	"""
+	# For decoration
 	head()
+
+	# Set up menu of the script
 	menu = {}
 	menu['1'] = "Update listing"
 	menu['2'] = "Get data from Config file"
@@ -52,9 +56,14 @@ def main():
 	options = menu.keys()
 	options.sort()
 	for entry in options:
+		# Display the menu
 		print entry, menu[entry]
 
+	# Save user choice
 	user_choice = raw_input("\nChoice [1/%s]: " % len(menu))
+
+	# Update listing is useful for some part of the script to work properly
+	# TODO: Out of date date
 	if user_choice == "1":
 		the_class.get_listing()
 
@@ -71,6 +80,8 @@ def main():
 		for coin in list:
 			print "\nGet %s data" % coin
 			ID = the_class.get_ID_from_listing(coin)
+			if not ID:
+				main()
 			result = the_class.get_coin_data(ID)
 			the_class.output_2(result)
 

@@ -17,6 +17,7 @@ Version   Date           Comment
 						    - Get data, save and display
 0.1.2     2018/09/28     Added function for "Display data from specific coin"
 							- Get data and display
+						 Fixed: Crash if no listing file found
 ========= ============== ======================================================
 """
 
@@ -25,6 +26,7 @@ import requests
 import time
 import ConfigParser
 import csv
+import sys
 
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
@@ -57,7 +59,8 @@ class pas_tres_class:
 		print "Updating listing ..."
 		r = requests.get('https://api.coinmarketcap.com/v2/listings/')
 		self.output_listing(r.json())
-		return r.json()
+		# return r.json()
+		return False
 
 	def output_listing(self, data):
 		"""
@@ -75,6 +78,8 @@ class pas_tres_class:
 
 		print "Update finished and data saved"
 		time.sleep(2)
+		return False
+
 
 	def get_data_config_file(self):
 		"""
@@ -90,11 +95,24 @@ class pas_tres_class:
 		function: Get the ID of the coin requested from the listing.csv file
 		return: ID of the coin requested
 		"""
-		with open('Output/listing.csv', "rb") as f:
-			reader = csv.reader(f)
-			for l in enumerate(reader):
-				if l[1][0] == get_ID:
-					return l[1][2]
+		try:
+			print "DEBUG: GOOOOOOOOOOD"
+			with open('Output/listing.csv', "rb") as f:
+				reader = csv.reader(f)
+				for l in enumerate(reader):
+					if l[1][0] == get_ID:
+						return l[1][2]
+
+		except IOError:
+			print "Issue with he listing file"
+			choice = raw_input(
+				"Would you like to update the listing? [y/n]")
+			if choice.lower() == "y":
+				self.get_listing()
+				return False
+			else:
+				print "Exit script"
+				sys.exit(0)
 
 	# def format_request_per_coin(self, data):
 	# 	name = data["data"]["name"]
@@ -106,6 +124,7 @@ class pas_tres_class:
 
 	# TODO: Factorize those two functions - possible to merge them
 	def output_2(self, result):
+		print result
 		with open("Output/last_update.csv", "a+") as att_file:
 			name = result["data"]["name"]
 			price = result["data"]["quotes"]["USD"]["price"]
