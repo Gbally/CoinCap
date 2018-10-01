@@ -181,25 +181,49 @@ class PasTresClass:
 		print 'Change 7days  %s /100' % change_7
 
 	def change(self, data):
-		dic = {}
-		for test in data["data"]:
-			id = test
-			change_24h = data["data"][test]["quotes"]["USD"]["percent_change_24h"]
-			# print "Change {} on {}".format(float(change_24h), int(id))
-			dic[int(id)] = float(change_24h)
 
-		""" Sort dic from - to + """
-		# sorted_x = sorted(dic.items(), key=operator.itemgetter(1))
-		# print sorted_x
+		def get_data(data, choice):
+			dic = {}
+			for test in data["data"]:
+				id = test
+				change_24h = data["data"][test]["quotes"]["USD"][choice]
+				dic[int(id)] = float(change_24h)
 
-		""" Gives the MAX value of the dic (only one value) """
-		# test = max(dic.iteritems(), key=operator.itemgetter(1))[0]
-		# print test
+			# Gives the keys in sorted order (of value)
+			return sorted(dic, key=(lambda key: dic[key]), reverse=True)
 
-		""" Gives the keys in sorted order (of value) """ # Might be good
-		# solution
-		x = sorted(dic, key=(lambda key: dic[key]), reverse=True)
-		print x
+		def process_data(data, result, top_x):
+			cpt = 0
+			while cpt < top_x:
+				name = data["data"][2137]["name"]
+				print name
+				print result[1]
+				print ""
 
+
+
+				cpt += 1
+
+
+		print "\nWhat information would you like to see:"
+		print "Changes in the past 1 hour --- 1"
+		print "Changes in the past 24 hours - 2"
+		print "Changes in the past 7 days --- 3"
+		print "Market Cap ------------------- 4"
+		print "Value 24 hours --------------- 5"
+		print "Price ------------------------ 6"
+		user_choice = raw_input("\nYour chocie: \n")
+
+		if user_choice == "1":
+			result = get_data(data, "percent_change_1h")
+			process_data(data, result, 10)
+
+
+
+
+
+		elif user_choice == "2":
+			result = get_data(data, "percent_change_1h")
+			print result
 
 		raw_input("")
