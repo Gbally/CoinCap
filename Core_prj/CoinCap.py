@@ -53,7 +53,8 @@ def main():
 	menu['1'] = "Update listing"
 	menu['2'] = "Get data from Config file"
 	menu['3'] = "Display data from a specific coin"
-	menu['4'] = "Exit - Any other key"
+	menu['4'] = "Top 10 changes ..."
+	menu['5'] = "Exit - Any other key"
 	options = menu.keys()
 	options.sort()
 	for entry in options:
@@ -101,8 +102,14 @@ def main():
 		ID = the_class.get_ID_from_listing(coin_request)
 		result = the_class.get_coin_data(ID)
 		the_class.output_3(result)
+		raw_input("Press Enter")
 
 		main()
+
+	elif user_choice == "4":
+		all_coin_data = the_class.get_coin_data("")
+		the_class.change(all_coin_data)
+		raw_input("")
 
 	else:
 		os.system('cls' if os.name == 'nt' else 'clear')

@@ -29,6 +29,9 @@ import csv
 import sys
 import os
 
+import operator
+from collections import OrderedDict
+
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
 __date__ = '2018/09/28'
@@ -84,7 +87,6 @@ class PasTresClass:
 		time.sleep(2)
 		return False
 
-
 	def get_data_config_file(self):
 		"""
 		function: From the config file, launch the get_data_request script.
@@ -127,7 +129,6 @@ class PasTresClass:
 
 	# TODO: Factorize those two functions - possible to merge them
 	def output_2(self, result):
-		print result
 		with open("Output/last_update.csv", "a+") as att_file:
 			name = result["data"]["name"]
 			price = result["data"]["quotes"]["USD"]["price"]
@@ -178,3 +179,27 @@ class PasTresClass:
 		print 'Volume 24h    %s $' % vol_24
 		print 'Change 24h    %s /100' % change_24
 		print 'Change 7days  %s /100' % change_7
+
+	def change(self, data):
+		dic = {}
+		for test in data["data"]:
+			id = test
+			change_24h = data["data"][test]["quotes"]["USD"]["percent_change_24h"]
+			# print "Change {} on {}".format(float(change_24h), int(id))
+			dic[int(id)] = float(change_24h)
+
+		""" Sort dic from - to + """
+		# sorted_x = sorted(dic.items(), key=operator.itemgetter(1))
+		# print sorted_x
+
+		""" Gives the MAX value of the dic (only one value) """
+		# test = max(dic.iteritems(), key=operator.itemgetter(1))[0]
+		# print test
+
+		""" Gives the keys in sorted order (of value) """ # Might be good
+		# solution
+		x = sorted(dic, key=(lambda key: dic[key]), reverse=True)
+		print x
+
+
+		raw_input("")
