@@ -13,11 +13,12 @@
 Version   Date           Comment
 ========= ============== ======================================================
 0.1.0     2018/08/29     Creation of the class
-0.1.1     2018/09/27     Added function for "Get data from Config File"
+0.1.1     2018/09/27     Added: function for "Get data from Config File"
 						    - Get data, save and display
-0.1.2     2018/09/28     Added function for "Display data from specific coin"
+0.1.2     2018/09/28     Added: function for "Display data from specific coin"
 							- Get data and display
 						 Fixed: Crash if no listing file found
+0.2.0     2018/10/02     Added: function for Top 10 changes ...
 ========= ============== ======================================================
 """
 
@@ -35,7 +36,7 @@ from collections import OrderedDict
 # [MODULE INFO]----------------------------------------------------------------
 __author__ = 'Guillaume'
 __date__ = '2018/09/28'
-__version__ = '0.1.2'
+__version__ = '0.2.0'
 __maintainer__ = 'Guillaume'
 
 # [GLOBALS]--------------------------------------------------------------------
@@ -119,14 +120,6 @@ class PasTresClass:
 				print "Exit script"
 				sys.exit(0)
 
-	# def format_request_per_coin(self, data):
-	# 	name = data["data"]["name"]
-	# 	price = data["data"]["quotes"]["USD"]["price"]
-	# 	market_cap = data["data"]["quotes"]["USD"]["market_cap"]
-	# 	vol_24 = data["data"]["quotes"]["USD"]["volume_24h"]
-	# 	change_24 = data["data"]["quotes"]["USD"]["percent_change_24h"]
-	# 	change_7 = data["data"]["quotes"]["USD"]["percent_change_7d"]
-
 	# TODO: Factorize those two functions - possible to merge them
 	def output_2(self, result):
 		with open("Output/last_update.csv", "a+") as att_file:
@@ -180,50 +173,24 @@ class PasTresClass:
 		print 'Change 24h    %s /100' % change_24
 		print 'Change 7days  %s /100' % change_7
 
-	def change(self, data):
+	def get_data_top_x(self, data, choice):
+		dic = {}
+		for test in data["data"]:
+			id = test
+			change_24h = data["data"][test]["quotes"]["USD"][choice]
+			dic[int(id)] = float(change_24h)
 
-		def get_data(data, choice):
-			dic = {}
-			for test in data["data"]:
-				id = test
-				change_24h = data["data"][test]["quotes"]["USD"][choice]
-				dic[int(id)] = float(change_24h)
+		# Gives the keys in sorted order (of value)
+		return sorted(dic, key=(lambda key: dic[key]), reverse=True)
 
-			# Gives the keys in sorted order (of value)
-			return sorted(dic, key=(lambda key: dic[key]), reverse=True)
+	def process_data_top_x(self, data, result, top_x, key):
+		# Select only the top requested
+		ids = result[:top_x]
 
-		def process_data(data, result, top_x):
-			cpt = 0
-			while cpt < top_x:
-				name = data["data"][2137]["name"]
-				print name
-				print result[1]
-				print ""
-
-
-
-				cpt += 1
-
-
-		print "\nWhat information would you like to see:"
-		print "Changes in the past 1 hour --- 1"
-		print "Changes in the past 24 hours - 2"
-		print "Changes in the past 7 days --- 3"
-		print "Market Cap ------------------- 4"
-		print "Value 24 hours --------------- 5"
-		print "Price ------------------------ 6"
-		user_choice = raw_input("\nYour chocie: \n")
-
-		if user_choice == "1":
-			result = get_data(data, "percent_change_1h")
-			process_data(data, result, 10)
-
-
-
-
-
-		elif user_choice == "2":
-			result = get_data(data, "percent_change_1h")
-			print result
-
-		raw_input("")
+		print "Biggest changes are:\n"
+		for coin_id in ids:
+			name = data['data'][str(coin_id)]['name']
+			user_information = data['data'][str(coin_id)]['quotes']['USD'][key]
+			print "\33[1m \033[97m {} \033[0m with \33[1m \033[92m {} \033[" \
+			      "0m".format(name,
+			                                             user_information)

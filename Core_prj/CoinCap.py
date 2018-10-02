@@ -18,6 +18,7 @@ Version   Date           Comment
 0.1.4     2018/09/28     Added Display data from specific coin
 						 Menu changed
 						 Fixed: Crash if no listing file found
+0.2.0     2018/10/02     Added: Option "Top 10 changes ..."
 ========= ============== ======================================================
 """
 
@@ -49,23 +50,17 @@ def main():
 	head()
 
 	# Set up menu of the script
-	menu = {}
-	menu['1'] = "Update listing"
-	menu['2'] = "Get data from Config file"
-	menu['3'] = "Display data from a specific coin"
-	menu['4'] = "Top 10 changes ..."
-	menu['5'] = "Exit - Any other key"
-	options = menu.keys()
-	options.sort()
-	for entry in options:
-		# Display the menu
-		print entry, menu[entry]
+	print "Update listing --------------------- 1"
+	print "Get data from Config file ---------- 2"
+	print "Display data from a specific coin -- 3"
+	print "Top 10 changes ... ----------------- 4\n"
+	print "Exit - Any other key"
 
 	# Save user choice
-	user_choice = raw_input("\nChoice [1/%s]: " % len(menu))
+	user_choice = raw_input("\nChoice [1/4]: ")
 
 	# Update listing is useful for some part of the script to work properly
-	# TODO: Out of date date
+	# TODO: Out of date data
 	if user_choice == "1":
 		the_class.get_listing()
 		# Return to the main  - menu for an other action
@@ -107,9 +102,71 @@ def main():
 		main()
 
 	elif user_choice == "4":
+		head()
+		# TODO: Let user choose number of values he wishes to see
+
+		print "What information would you like to see:\n"
+		print "Changes in the past 1 hour --- 1"
+		print "Changes in the past 24 hours - 2"
+		print "Changes in the past 7 days --- 3"
+		print "Market Cap ------------------- 4"
+		print "Value 24 hours --------------- 5"
+		print "Price ------------------------ 6"
+		user_choice = raw_input("\nYour chocie: ")
+
+		head()
+		print "Getting data...\n"
 		all_coin_data = the_class.get_coin_data("")
-		the_class.change(all_coin_data)
-		raw_input("")
+		if user_choice == "1":
+			sort_coin_data = the_class.get_data_top_x(all_coin_data,
+			                                         "percent_change_1h")
+			the_class.process_data_top_x(all_coin_data,
+			                             sort_coin_data,
+			                             10,
+			                             "percent_change_1h")
+
+		elif user_choice == "2":
+			sort_coin_data = the_class.get_data_top_x(all_coin_data,
+			                                         "percent_change_24h")
+			the_class.process_data_top_x(all_coin_data,
+			                             sort_coin_data,
+			                             10,
+			                             "percent_change_24h")
+
+		elif user_choice == "3":
+			sort_coin_data = the_class.get_data_top_x(all_coin_data,
+			                                         "percent_change_7d")
+			the_class.process_data_top_x(all_coin_data,
+			                             sort_coin_data,
+			                             10,
+			                             "percent_change_7d")
+
+		elif user_choice == "4":
+			sort_coin_data = the_class.get_data_top_x(all_coin_data,
+			                                         "market_cap")
+			the_class.process_data_top_x(all_coin_data,
+			                             sort_coin_data,
+			                             10,
+			                             "market_cap")
+
+		elif user_choice == "5":
+			sort_coin_data = the_class.get_data_top_x(all_coin_data,
+			                                         "volume_24h")
+			the_class.process_data_top_x(all_coin_data,
+			                             sort_coin_data,
+			                             10,
+			                             "volume_24h")
+
+		elif user_choice == "6":
+			sort_coin_data = the_class.get_data_top_x(all_coin_data,
+			                                         "price")
+			the_class.process_data_top_x(all_coin_data,
+			                             sort_coin_data,
+			                             10,
+			                             "price")
+
+		raw_input("\nPress Enter to continue...")
+		main()
 
 	else:
 		os.system('cls' if os.name == 'nt' else 'clear')
